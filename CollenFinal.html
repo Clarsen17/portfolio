@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collen Larsen — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   ROOT
+══════════════════════════════════════════ */
+:root {
+  --red: #cc0000;
+  --red-bright: #ff2222;
+  --red-dim: #6a0000;
+  --red-glow: rgba(204,0,0,0.35);
+  --black: #080808;
+  --dark: #0e0e0e;
+  --panel: #131313;
+  --panel2: #1a1a1a;
+  --border: rgba(204,0,0,0.18);
+  --border-bright: rgba(204,0,0,0.5);
+  --white: #f2f2f2;
+  --gray: #7a7a7a;
+  --gray-light: #b0b0b0;
+  --green: #00e676;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:'Barlow',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── Custom cursor ── */
+.cursor{
+  position:fixed;width:10px;height:10px;
+  background:var(--red);border-radius:50%;
+  pointer-events:none;z-index:99999;
+  transform:translate(-50%,-50%);
+  transition:transform 0.08s,width 0.2s,height 0.2s,opacity 0.2s;
+  mix-blend-mode:normal;
+}
+.cursor-ring{
+  position:fixed;width:34px;height:34px;
+  border:1.5px solid rgba(204,0,0,0.5);border-radius:50%;
+  pointer-events:none;z-index:99998;
+  transform:translate(-50%,-50%);
+  transition:transform 0.15s ease-out,width 0.25s,height 0.25s,border-color 0.2s;
+}
+body:has(a:hover) .cursor, body:has(button:hover) .cursor { width:16px;height:16px; }
+body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width:50px;height:50px;border-color:var(--red); }
+
+/* ── Scanlines ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.045) 2px,rgba(0,0,0,0.045) 4px);
+  pointer-events:none;z-index:9990;
+}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px;}
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.9rem 3rem;
+  background:rgba(8,8,8,0.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  transition:padding 0.3s,background 0.3s;
+}
+nav.scrolled{padding:0.65rem 3rem;background:rgba(8,8,8,0.97);}
+
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.08em;color:var(--white);text-decoration:none;}
+.nav-brand span{color:var(--red);}
+
+.nav-center{display:flex;gap:2rem;list-style:none;}
+.nav-center a{color:var(--gray);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;transition:color 0.2s;position:relative;padding-bottom:2px;}
+.nav-center a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform 0.25s;}
+.nav-center a:hover{color:var(--white);}
+.nav-center a:hover::after{transform:scaleX(1);}
+
+.nav-right{display:flex;align-items:center;gap:1.2rem;}
+.nav-status{display:flex;align-items:center;gap:0.5rem;font-size:0.7rem;color:var(--gray);letter-spacing:0.06em;}
+.status-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);animation:blink 2s ease infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* Hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;padding:4px;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--gray);border-radius:2px;transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+.mobile-menu{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(8,8,8,0.98);z-index:490;
+  flex-direction:column;align-items:center;justify-content:center;gap:2rem;
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:0.06em;color:var(--gray);text-decoration:none;transition:color 0.2s;}
+.mobile-menu a:hover{color:var(--red);}
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;
+  position:relative;overflow:hidden;padding-top:5rem;
+}
+
+/* Canvas for particle network */
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.6;}
+
+.hero-left{padding:4rem 3rem 4rem 5rem;position:relative;z-index:2;}
+
+.hero-eyebrow{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.5rem;animation:fadeUp 0.9s 0.1s both;}
+.hero-tag{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);border:1px solid var(--border-bright);padding:0.25rem 0.85rem;border-radius:2px;}
+.hero-line{width:40px;height:1px;background:var(--red-dim);}
+
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(4.5rem,9vw,8rem);line-height:0.9;letter-spacing:0.01em;color:var(--white);animation:fadeUp 0.9s 0.2s both;}
+.hero h1 .line-red{color:var(--red);text-shadow:0 0 40px rgba(204,0,0,0.4);}
+
+.hero-sub{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:600;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;margin:1.3rem 0 2rem;border-left:3px solid var(--red);padding-left:1rem;animation:fadeUp 0.9s 0.3s both;}
+
+.hero-desc{font-size:0.98rem;color:var(--gray-light);line-height:1.8;max-width:450px;margin-bottom:2.5rem;animation:fadeUp 0.9s 0.4s both;}
+
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp 0.9s 0.5s both;}
+
+.btn-red{background:var(--red);color:var(--white);padding:0.8rem 2.2rem;border-radius:3px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.88rem;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;transition:background 0.2s,transform 0.2s,box-shadow 0.2s;box-shadow:0 0 24px rgba(204,0,0,0.3);}
+.btn-red:hover{background:var(--red-bright);transform:translateY(-2px);box-shadow:0 0 40px rgba(204,0,0,0.55);}
+
+.btn-outline{background:transparent;color:var(--gray-light);padding:0.8rem 2.2rem;border-radius:3px;border:1px solid rgba(255,255,255,0.12);font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:0.88rem;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;transition:border-color 0.2s,color 0.2s,background 0.2s;}
+.btn-outline:hover{border-color:var(--red);color:var(--white);background:rgba(204,0,0,0.05);}
+
+.hero-badges{display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:2.5rem;padding-top:2.5rem;border-top:1px solid var(--border);animation:fadeUp 0.9s 0.6s both;}
+.hero-badge{display:flex;align-items:center;gap:0.5rem;background:rgba(20,20,20,0.8);border:1px solid var(--border);border-radius:3px;padding:0.45rem 0.9rem;font-size:0.76rem;color:var(--gray-light);font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.08em;backdrop-filter:blur(8px);}
+
+/* Hero right — photo */
+.hero-right{position:relative;z-index:2;display:flex;justify-content:center;align-items:flex-end;height:100vh;}
+
+.photo-frame{position:relative;width:370px;}
+.photo-frame::before{content:'';position:absolute;inset:-2px;background:linear-gradient(145deg,var(--red),transparent 55%,rgba(100,0,0,0.4));border-radius:6px 6px 0 0;z-index:-1;}
+.photo-frame img{width:100%;height:510px;object-fit:cover;object-position:top;display:block;border-radius:4px 4px 0 0;filter:grayscale(15%) contrast(1.08);}
+.photo-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(8,8,8,0.97) 30%,transparent);padding:1.5rem;}
+.photo-name{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:0.04em;color:var(--white);}
+.photo-title{font-family:'Barlow Condensed',sans-serif;font-size:0.76rem;color:var(--red);letter-spacing:0.14em;text-transform:uppercase;margin-top:0.2rem;}
+.corner-tag{position:absolute;top:1rem;right:1rem;background:var(--red);color:white;font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;padding:0.22rem 0.65rem;text-transform:uppercase;box-shadow:0 0 14px rgba(204,0,0,0.5);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+
+/* ══════════════════════════════════════════
+   STATS BAR
+══════════════════════════════════════════ */
+.stats-bar{
+  background:var(--panel);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:0;overflow:hidden;
+}
+.stats-inner{
+  max-width:1300px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.stat-item{
+  padding:1.5rem 2rem;
+  border-right:1px solid var(--border);
+  display:flex;align-items:center;gap:1rem;
+  position:relative;overflow:hidden;
+}
+.stat-item:last-child{border-right:none;}
+.stat-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.4s;}
+.stat-item:hover::before{transform:scaleX(1);}
+.stat-icon{font-size:1.6rem;flex-shrink:0;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1;background:linear-gradient(135deg,var(--white),var(--gray-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-label{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;color:var(--gray);letter-spacing:0.12em;text-transform:uppercase;margin-top:0.1rem;}
+
+/* ══════════════════════════════════════════
+   SECTION UTILITIES
+══════════════════════════════════════════ */
+.section{padding:6rem 5rem;max-width:1300px;margin:0 auto;}
+
+.section-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:3.5rem;}
+.section-num{font-family:'Bebas Neue',sans-serif;font-size:5.5rem;line-height:1;color:rgba(255,26,26,0.3);letter-spacing:-0.02em;user-select:none;text-shadow:0 0 8px rgba(204,0,0,0.2);}
+.section-label-group{display:flex;flex-direction:column;gap:0.3rem;}
+.section-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3.2rem);letter-spacing:0.03em;line-height:1;color:var(--white);}
+
+.divider{height:1px;background:linear-gradient(90deg,var(--red-dim),transparent);margin-bottom:4rem;}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ══════════════════════════════════════════
+   ABOUT
+══════════════════════════════════════════ */
+#about{background:var(--dark);}
+
+.about-grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:4rem;align-items:start;}
+.about-text p{font-size:1.02rem;color:var(--gray-light);line-height:1.85;margin-bottom:1.2rem;}
+.about-text p strong{color:var(--white);font-weight:500;}
+
+.about-cards{display:flex;flex-direction:column;gap:0.85rem;}
+.about-card{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:3px;padding:1.1rem 1.4rem;transition:background 0.2s,border-color 0.2s;}
+.about-card:hover{background:rgba(204,0,0,0.05);border-color:var(--border-bright);}
+.about-card-label{font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:0.3rem;}
+.about-card-val{font-size:0.9rem;color:var(--white);font-weight:400;}
+.about-card-val a{color:var(--white);text-decoration:none;transition:color 0.2s;}
+.about-card-val a:hover{color:var(--red);}
+
+/* ══════════════════════════════════════════
+   EDUCATION
+══════════════════════════════════════════ */
+#education{background:var(--black);}
+
+.edu-card{background:var(--panel);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.edu-header{background:linear-gradient(135deg,rgba(100,0,0,0.3),var(--panel2));border-bottom:1px solid var(--border);padding:2rem 2.5rem;display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+.edu-school{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.05em;color:var(--white);}
+.edu-degree{font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;color:var(--gray-light);letter-spacing:0.06em;margin-top:0.3rem;}
+.edu-meta{text-align:right;}
+.edu-date{font-family:'Barlow Condensed',sans-serif;font-size:0.82rem;color:var(--red);letter-spacing:0.1em;text-transform:uppercase;}
+.edu-location{font-size:0.8rem;color:var(--gray);margin-top:0.25rem;}
+.edu-body{padding:2rem 2.5rem;}
+.edu-minor{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(204,0,0,0.08);border:1px solid var(--border);border-radius:2px;padding:0.35rem 0.9rem;font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;color:var(--red);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2rem;}
+
+.roles-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.role-card{background:var(--dark);border:1px solid var(--border);border-top:2px solid var(--red);border-radius:3px;padding:1.5rem;transition:border-color 0.25s,background 0.25s,transform 0.25s;}
+.role-card:hover{border-color:var(--red-bright);background:rgba(204,0,0,0.04);transform:translateY(-3px);}
+.role-title{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;color:var(--white);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.3rem;}
+.role-dates{font-size:0.73rem;color:var(--red);font-family:'Barlow Condensed',sans-serif;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.9rem;}
+.role-bullets{list-style:none;display:flex;flex-direction:column;gap:0.6rem;}
+.role-bullets li{font-size:0.87rem;color:var(--gray-light);line-height:1.6;padding-left:1.2rem;position:relative;}
+.role-bullets li::before{content:'▸';position:absolute;left:0;color:var(--red);font-size:0.68rem;top:3px;}
+
+/* ══════════════════════════════════════════
+   CERTIFICATES
+══════════════════════════════════════════ */
+#certificates{background:var(--dark);}
+
+.cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
+.cert-card{
+  background:linear-gradient(160deg,rgba(255,255,255,0.025),rgba(204,0,0,0.04));
+  border:1px solid var(--border);border-top:2px solid var(--red);border-radius:5px;
+  padding:1.8rem;transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s;
+  position:relative;overflow:hidden;
+}
+.cert-card::before{content:'';position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle,rgba(204,0,0,0.12),transparent 70%);pointer-events:none;}
+.cert-card:hover{border-color:var(--red-bright);transform:translateY(-4px);box-shadow:0 14px 35px rgba(0,0,0,0.4);}
+.cert-icon{font-size:2rem;margin-bottom:1rem;display:block;}
+.cert-title{font-family:'Barlow Condensed',sans-serif;font-size:1.08rem;font-weight:700;color:var(--white);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:0.45rem;}
+.cert-org{font-size:0.88rem;color:var(--gray-light);margin-bottom:0.9rem;}
+.cert-date{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(204,0,0,0.1);border:1px solid var(--border);border-radius:2px;padding:0.28rem 0.75rem;font-family:'Barlow Condensed',sans-serif;font-size:0.74rem;color:var(--red);letter-spacing:0.12em;text-transform:uppercase;}
+
+/* ══════════════════════════════════════════
+   EXPERIENCE
+══════════════════════════════════════════ */
+#experience{background:var(--black);}
+
+.exp-list{display:flex;flex-direction:column;gap:0;}
+.exp-item{display:grid;grid-template-columns:200px 1px 1fr;gap:0 2.5rem;position:relative;padding-bottom:3.5rem;}
+.exp-item:last-child{padding-bottom:0;}
+.exp-date-col{text-align:right;padding-top:0.2rem;}
+.exp-date{font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:600;color:var(--red);letter-spacing:0.1em;text-transform:uppercase;white-space:nowrap;}
+.exp-org{font-size:0.77rem;color:var(--gray);margin-top:0.3rem;line-height:1.4;}
+.exp-line{position:relative;background:var(--border);}
+.exp-line::before{content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);width:12px;height:12px;background:var(--red);border-radius:50%;box-shadow:0 0 14px var(--red),0 0 28px rgba(204,0,0,0.3);border:2px solid var(--black);}
+.exp-role{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;color:var(--white);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.7rem;}
+.exp-desc{font-size:0.9rem;color:var(--gray-light);line-height:1.75;}
+.exp-logo{width:52px;height:52px;object-fit:contain;margin-top:1rem;transition:transform 0.2s,filter 0.2s;filter:brightness(0.65);}
+.exp-item:hover .exp-logo{transform:scale(1.06);filter:brightness(0.85);}
+
+/* ══════════════════════════════════════════
+   VOLUNTEERING / ESPORTS
+══════════════════════════════════════════ */
+#volunteering{background:var(--black);}
+
+.vol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
+.vol-card{
+  background:linear-gradient(170deg,rgba(255,255,255,0.02),rgba(204,0,0,0.03));
+  border:1px solid var(--border);border-left:3px solid var(--red);
+  border-radius:6px;padding:1.6rem;
+  transition:border-color 0.25s,background 0.25s,transform 0.25s,box-shadow 0.25s;
+}
+.vol-card:hover{border-color:var(--red-bright);background:rgba(204,0,0,0.05);transform:translateY(-4px);box-shadow:0 14px 32px rgba(0,0,0,0.35);}
+.vol-top{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+.vol-logo{width:50px;height:50px;object-fit:contain;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:0.4rem;flex-shrink:0;}
+.vol-role{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;color:var(--white);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.15rem;}
+.vol-org{font-size:0.86rem;color:var(--gray-light);margin-bottom:0.15rem;}
+.vol-dates{font-family:'Barlow Condensed',sans-serif;font-size:0.73rem;color:var(--red);letter-spacing:0.1em;text-transform:uppercase;}
+.vol-desc{font-size:0.88rem;color:var(--gray-light);line-height:1.72;}
+
+/* ══════════════════════════════════════════
+   PROJECTS
+══════════════════════════════════════════ */
+#projects{background:var(--dark);}
+
+/* Filter tabs */
+.project-filters{display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.filter-btn{background:transparent;border:1px solid var(--border);border-radius:100px;padding:0.4rem 1.1rem;font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:600;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;cursor:none;transition:all 0.2s;}
+.filter-btn:hover,.filter-btn.active{background:var(--red);border-color:var(--red);color:var(--white);box-shadow:0 0 14px rgba(204,0,0,0.3);}
+
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+
+.project-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:5px;
+  overflow:hidden;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+  text-decoration:none;display:block;
+}
+.project-card:hover{transform:translateY(-7px);border-color:var(--red);box-shadow:0 18px 45px rgba(0,0,0,0.55),0 0 22px rgba(204,0,0,0.14);}
+.project-card.hidden{display:none;}
+
+.project-thumb-wrap{position:relative;overflow:hidden;height:175px;}
+.project-thumb{width:100%;height:175px;object-fit:cover;display:block;transition:transform 0.4s,filter 0.3s;filter:saturate(0.75) contrast(1.06);}
+.project-card:hover .project-thumb{transform:scale(1.04);filter:saturate(1.1) contrast(1.1);}
+.project-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,0.7),transparent 60%);opacity:0;transition:opacity 0.3s;}
+.project-card:hover .project-thumb-overlay{opacity:1;}
+
+.project-body{padding:1.4rem;}
+.project-title{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;color:var(--white);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.5rem;}
+.project-desc{font-size:0.83rem;color:var(--gray);line-height:1.65;margin-bottom:1rem;}
+.project-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.project-tag{font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);border:1px solid var(--border-bright);border-radius:2px;padding:0.15rem 0.5rem;}
+.project-arrow{display:flex;align-items:center;gap:0.4rem;font-family:'Barlow Condensed',sans-serif;font-size:0.73rem;font-weight:600;color:var(--red);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.9rem;opacity:0;transform:translateX(-6px);transition:opacity 0.3s,transform 0.3s;}
+.project-card:hover .project-arrow{opacity:1;transform:translateX(0);}
+
+/* ══════════════════════════════════════════
+   SKILLS
+══════════════════════════════════════════ */
+#skills{background:var(--black);}
+
+.skills-intro{max-width:720px;color:var(--gray-light);font-size:0.96rem;line-height:1.85;margin-bottom:2.5rem;}
+.skills-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+.skill-panel{
+  background:linear-gradient(160deg,rgba(255,255,255,0.02),rgba(204,0,0,0.03));
+  border:1px solid var(--border);border-radius:10px;
+  padding:1.6rem;transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s,background 0.25s;
+  position:relative;overflow:hidden;min-height:220px;
+}
+.skill-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(255,26,26,0.11),transparent 40%);pointer-events:none;}
+.skill-panel:hover{transform:translateY(-5px);border-color:var(--border-bright);box-shadow:0 16px 36px rgba(0,0,0,0.35);background:linear-gradient(160deg,rgba(255,255,255,0.03),rgba(204,0,0,0.07));}
+.skill-panel-icon{font-size:1.8rem;margin-bottom:1rem;display:block;}
+.skill-panel-title{font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;color:var(--red);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.7rem;}
+.skill-panel-copy{font-size:0.86rem;color:var(--gray);line-height:1.7;margin-bottom:1rem;}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.skill-tag{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:999px;padding:0.28rem 0.7rem;font-size:0.76rem;color:var(--gray-light);font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.05em;transition:border-color 0.2s,color 0.2s;}
+.skill-tag:hover{border-color:var(--red);color:var(--white);}
+
+/* ══════════════════════════════════════════
+   COMMISSION
+══════════════════════════════════════════ */
+#commission{background:var(--dark);}
+
+.commission-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start;}
+.commission-left h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.05em;color:var(--white);margin-bottom:1rem;}
+.commission-left p{font-size:0.9rem;color:var(--gray);line-height:1.8;margin-bottom:1.5rem;}
+.comm-list{display:flex;flex-direction:column;gap:0.75rem;list-style:none;}
+.comm-list li{display:flex;align-items:center;gap:0.8rem;font-size:0.87rem;color:var(--gray-light);}
+.comm-list li::before{content:'✓';color:var(--red);font-weight:700;flex-shrink:0;}
+
+.commission-form{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:2.5rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem;}
+.form-group label{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;font-weight:600;color:var(--gray);letter-spacing:0.15em;text-transform:uppercase;}
+.form-group input,.form-group textarea,.form-group select{background:var(--dark);border:1px solid rgba(255,255,255,0.07);border-radius:3px;padding:0.75rem 1rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.9rem;font-weight:300;outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(204,0,0,0.1);}
+.form-group textarea{resize:vertical;min-height:120px;}
+.form-group select option{background:var(--panel);}
+.btn-submit{background:var(--red);color:var(--white);border:none;padding:0.9rem 2.5rem;border-radius:3px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.14em;text-transform:uppercase;cursor:none;transition:background 0.2s,transform 0.2s,box-shadow 0.2s;box-shadow:0 0 22px rgba(204,0,0,0.25);margin-top:0.5rem;}
+.btn-submit:hover{background:var(--red-bright);transform:translateY(-2px);box-shadow:0 0 35px rgba(204,0,0,0.45);}
+
+/* ══════════════════════════════════════════
+   CONTACT
+══════════════════════════════════════════ */
+#contact{background:var(--black);}
+
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem;}
+.contact-card{background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:1.8rem;text-decoration:none;transition:border-color 0.25s,transform 0.25s,background 0.25s,box-shadow 0.25s;display:flex;flex-direction:column;gap:0.5rem;position:relative;overflow:hidden;}
+.contact-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.35s;}
+.contact-card:hover{border-color:var(--red);transform:translateY(-4px);background:rgba(204,0,0,0.04);box-shadow:0 12px 28px rgba(0,0,0,0.35);}
+.contact-card:hover::before{transform:scaleX(1);}
+.contact-card-icon{font-size:1.6rem;}
+.contact-card-label{font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;font-weight:600;color:var(--red);letter-spacing:0.18em;text-transform:uppercase;margin-top:0.5rem;}
+.contact-card-val{font-size:0.92rem;color:var(--white);}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer{
+  background:var(--panel);border-top:1px solid var(--border);
+  padding:2rem 5rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+}
+.footer-brand{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.06em;color:var(--white);}
+.footer-brand span{color:var(--red);}
+.footer-copy{font-size:0.72rem;color:var(--gray);text-align:center;max-width:460px;line-height:1.5;}
+.footer-links{display:flex;gap:1.5rem;}
+.footer-links a{font-family:'Barlow Condensed',sans-serif;font-size:0.76rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--red);}
+
+/* ══════════════════════════════════════════
+   BACK TO TOP
+══════════════════════════════════════════ */
+.back-top{
+  position:fixed;bottom:2rem;right:2rem;z-index:400;
+  width:42px;height:42px;
+  background:var(--red);border:none;border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;opacity:0;transform:translateY(10px);
+  transition:opacity 0.3s,transform 0.3s,background 0.2s,box-shadow 0.2s;
+  box-shadow:0 0 18px rgba(204,0,0,0.3);
+}
+.back-top.visible{opacity:1;transform:translateY(0);}
+.back-top:hover{background:var(--red-bright);box-shadow:0 0 30px rgba(204,0,0,0.5);}
+.back-top svg{width:16px;height:16px;stroke:white;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .hero-left{padding:5.5rem 3rem 3rem;}
+  .section{padding:4.5rem 3rem;}
+  .roles-grid,.cert-grid,.vol-grid{grid-template-columns:1fr;}
+  .skills-layout{grid-template-columns:repeat(2,1fr);}
+  .projects-grid{grid-template-columns:1fr 1fr;}
+  .contact-grid{grid-template-columns:1fr 1fr;}
+  .commission-layout{grid-template-columns:1fr;}
+  .stats-inner{grid-template-columns:repeat(2,1fr);}
+  .stat-item:nth-child(2){border-right:none;}
+  footer{padding:2rem 3rem;flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:768px){
+  .nav-center{display:none;}
+  .hamburger{display:flex;}
+  .section{padding:3rem 1.5rem;}
+  .projects-grid{grid-template-columns:1fr;}
+  .skills-layout{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .exp-item{grid-template-columns:1fr;}
+  .exp-date-col{text-align:left;margin-bottom:0.5rem;}
+  .exp-line{display:none;}
+  .form-row{grid-template-columns:1fr;}
+  .about-grid{grid-template-columns:1fr;}
+  .stats-inner{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-brand">C<span>.</span>LARSEN</a>
+  <ul class="nav-center">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#certificates">Certs</a></li>
+    <li><a href="#experience">IT</a></li>
+    <li><a href="#volunteering">Esports</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#commission">Hire Me</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-status"><span class="status-dot"></span>Open to Opportunities</div>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#education" onclick="closeMobile()">Education</a>
+  <a href="#certificates" onclick="closeMobile()">Certificates</a>
+  <a href="#experience" onclick="closeMobile()">IT Experience</a>
+  <a href="#volunteering" onclick="closeMobile()">Esports</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#skills" onclick="closeMobile()">Skills</a>
+  <a href="#commission" onclick="closeMobile()">Hire Me</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span class="hero-tag">Portfolio 2025</span>
+      <span class="hero-line"></span>
+    </div>
+    <h1>COLLEN<br><span class="line-red">LARSEN</span></h1>
+    <p class="hero-sub">IT Support · Software Development · Esports Leadership</p>
+    <p class="hero-desc">I'm a Northern Illinois University student and Service Desk Analyst with a strong focus on information technology, practical software development, and esports operations. My work centers on solving technical problems, building useful tools, and supporting the people who rely on them.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-red">View My Work</a>
+      <a href="#commission" class="btn-outline">Commission Me</a>
+    </div>
+    <div class="hero-badges">
+      <div class="hero-badge"><span>🎓</span> NIU — DeKalb, IL</div>
+      <div class="hero-badge"><span>💼</span> Service Desk Analyst</div>
+      <div class="hero-badge"><span>🎮</span> Huskie Gaming President</div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="photo-frame">
+      <span class="corner-tag">President · 2024</span>
+      <img src="picture.jpg" alt="Collen Larsen">
+      <div class="photo-overlay">
+        <div class="photo-name">Collen Larsen</div>
+        <div class="photo-title">IT Support · Software Dev · Esports</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-icon">📅</div>
+      <div><div class="stat-num">4+</div><div class="stat-label">Years IT Experience</div></div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-icon">🏆</div>
+      <div><div class="stat-num">6+</div><div class="stat-label">Projects Built</div></div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-icon">🎮</div>
+      <div><div class="stat-num">2</div><div class="stat-label">Certifications Earned</div></div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-icon">📡</div>
+      <div><div class="stat-num">$400+</div><div class="stat-label">Raised for Charity</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 01 ABOUT ══ -->
+<section id="about" style="background:var(--dark);">
+  <div class="section reveal">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-label-group">
+        <span class="section-eyebrow">Who I Am</span>
+        <span class="section-title">About Me</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Hi, I'm Collen — a <strong>student and Service Desk Analyst</strong> at Northern Illinois University. My strongest focus is in <strong>information technology</strong>: troubleshooting issues, supporting users, and helping keep systems and services running smoothly.</p>
+        <p>I'm also invested in <strong>software development</strong>, especially building practical tools, web applications, and systems that improve workflows and solve everyday problems. I enjoy the process of turning a messy problem into something that works cleanly and reliably.</p>
+        <p>Alongside all of that, I stay involved in <strong>esports leadership</strong> through Huskie Gaming — where I help support teams, run events, and help grow the student gaming community at NIU.</p>
+      </div>
+      <div class="about-cards">
+        <div class="about-card"><div class="about-card-label">Current Role</div><div class="about-card-val">Service Desk Analyst &amp; Student @ NIU</div></div>
+        <div class="about-card"><div class="about-card-label">Location</div><div class="about-card-val">DeKalb, Illinois</div></div>
+        <div class="about-card"><div class="about-card-label">Priority Focus</div><div class="about-card-val">IT Support · Software Dev · Esports Ops</div></div>
+        <div class="about-card"><div class="about-card-label">Email</div><div class="about-card-val"><a href="mailto:collenlarsen@hotmail.com">collenlarsen@hotmail.com</a></div></div>
+        <div class="about-card"><div class="about-card-label">Status</div><div class="about-card-val" style="color:var(--green);">✦ Open to Internships &amp; Commissions</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 02 EDUCATION ══ -->
+<section id="education" style="background:var(--black);">
+  <div class="section reveal">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-label-group">
+        <span class="section-eyebrow">Academic Background</span>
+        <span class="section-title">Education</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="edu-card">
+      <div class="edu-header">
+        <div>
+          <div class="edu-school">Northern Illinois University</div>
+          <div class="edu-degree">Bachelor of General Studies</div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-date">Aug 2021 — Present</div>
+          <div class="edu-location">📍 DeKalb, IL</div>
+        </div>
+      </div>
+      <div class="edu-body">
+        <div class="edu-minor">🎮 Minor: Esports Industry Professions</div>
+        <div class="roles-grid">
+          <div class="role-card">
+            <div class="role-title">Academic Focus</div>
+            <div class="role-dates">Northern Illinois University</div>
+            <ul class="role-bullets">
+              <li>Built a strong foundation in information technology, technical troubleshooting, software development, and practical problem-solving through coursework and real-world campus technology work.</li>
+              <li>Strengthened communication, documentation, and end-user support skills across both classroom and professional IT environments.</li>
+            </ul>
+          </div>
+          <div class="role-card">
+            <div class="role-title">Student Involvement</div>
+            <div class="role-dates">Campus Leadership</div>
+            <ul class="role-bullets">
+              <li>Combined academics with meaningful campus leadership — serving as Club President and Esports Coordinator for Huskie Gaming simultaneously.</li>
+              <li>Developed communication, event coordination, and organizational skills across both technology and student community spaces.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 03 CERTIFICATES ══ -->
+<section id="certificates" style="background:var(--dark);">
+  <div class="section reveal">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-label-group">
+        <span class="section-eyebrow">Professional Development</span>
+        <span class="section-title">Certificates</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="cert-grid">
+      <div class="cert-card reveal">
+        <span class="cert-icon">🖥️</span>
+        <div class="cert-title">Google IT Support Professional Certificate (V2)</div>
+        <div class="cert-org">Coursera · Google</div>
+        <div class="cert-date">✦ Issued Jun 2025</div>
+      </div>
+      <div class="cert-card reveal">
+        <span class="cert-icon">📊</span>
+        <div class="cert-title">Sports Marketing Essentials</div>
+        <div class="cert-org">Front Office Sports</div>
+        <div class="cert-date">✦ Issued Mar 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 04 IT EXPERIENCE ══ -->
+<section id="experience" style="background:var(--black);">
+  <div class="section reveal">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div class="section-label-group">
+        <span class="section-eyebrow">Primary Focus</span>
+        <span class="section-title">IT Experience</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="exp-list">
+      <div class="exp-item reveal">
+        <div class="exp-date-col">
+          <div class="exp-date">Sept 2021 — Present</div>
+          <div class="exp-org">Northern Illinois University</div>
+          <img src="NIU.png" alt="NIU" class="exp-logo" style="float:right;margin-top:1rem;">
+        </div>
+        <div class="exp-line"></div>
+        <div class="exp-content">
+          <div class="exp-role">Service Desk Analyst</div>
+          <div class="exp-desc">Provide Tier 1 and Tier 2 technical support to students, faculty, and staff by troubleshooting hardware, software, account, and access issues across campus. Support day-to-day IT operations, assist with device setup and problem resolution, and help deliver reliable technology services in a fast-paced support environment.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 05 VOLUNTEERING / ESPORTS ══ -->
+<section id="volunteering" style="background:var(--dark);">
+  <div class="section reveal">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div class="section-label-group">
+        <span class="section-eyebrow">Leadership &amp; Community</span>
+        <span class="section-title">Volunteering / Esports</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="vol-grid">
+      <div class="vol-card reveal">
+        <div class="vol-top">
+          <img src="HuskieGaming.PNG" alt="Huskie Gaming" class="vol-logo">
+          <div>
+            <div class="vol-role">Club President</div>
+            <div class="vol-org">NIU Huskie Gaming</div>
+            <div class="vol-dates">2024 — Present</div>
+          </div>
+        </div>
+        <div class="vol-desc">Serve as the primary representative for the organization — guiding club direction, coordinating meetings and communications, advocating for the club with university administrators, and supporting events, partnerships, and broader student engagement initiatives.</div>
+      </div>
+      <div class="vol-card reveal">
+        <div class="vol-top">
+          <img src="HuskieGaming.PNG" alt="Huskie Gaming" class="vol-logo">
+          <div>
+            <div class="vol-role">Overwatch Coordinator</div>
+            <div class="vol-org">NIU Huskie Gaming</div>
+            <div class="vol-dates">2023 — Present</div>
+          </div>
+        </div>
+        <div class="vol-desc">Oversee Overwatch-related club activities including player coordination, team communication, match planning, and community building for one of the club's flagship competitive titles in the NECC.</div>
+      </div>
+      <div class="vol-card reveal">
+        <div class="vol-top">
+          <img src="IHSEA.png" alt="IHSEA" class="vol-logo">
+          <div>
+            <div class="vol-role">Tournament Organizer</div>
+            <div class="vol-org">Illinois High School Esports Association</div>
+            <div class="vol-dates">July 2024 — Present</div>
+          </div>
+        </div>
+        <div class="vol-desc">Organize and manage high school esports tournament matches across Illinois. Coordinate directly with teams for scheduling, bracket management, score reporting, and communications to ensure smooth event execution at the state level.</div>
+      </div>
+      <div class="vol-card reveal">
+        <div class="vol-top">
+          <img src="IHSEA.png" alt="IHSEA" class="vol-logo">
+          <div>
+            <div class="vol-role">Esports Caster</div>
+            <div class="vol-org">Illinois High School Esports Association</div>
+            <div class="vol-dates">Mar 2026</div>
+          </div>
+        </div>
+        <div class="vol-desc">Provided live play-by-play and color commentary for the IHSEA Overwatch Finals tournament — highlighting player performance, momentum swings, and key moments to deliver an engaging broadcast experience.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 06 PROJECTS ══ -->
+<section id="projects" style="background:var(--black);">
+  <div class="section reveal">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div class="section-label-group">
+        <span class="section-eyebrow">Software Development</span>
+        <span class="section-title">Projects</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Filter tabs -->
+    <div class="project-filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="web">Web</button>
+      <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+      <button class="filter-btn" data-filter="esports">Esports</button>
+      <button class="filter-btn" data-filter="event">Events</button>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+
+      <a href="https://etherawaits.net/UNIV301-6/" target="_blank" class="project-card" data-category="web">
+        <div class="project-thumb-wrap">
+          <img src="visible-invincibles-preview.png" alt="Visible Invincibles" class="project-thumb">
+          <div class="project-thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Capstone: Visible Invincibles</div>
+          <div class="project-desc">Braven Capstone Challenge — designed an alumni engagement web portal for Young Invincibles with gamification, progress tracking, and a community dashboard. Led main dashboard design and UI/UX decisions.</div>
+          <div class="project-tags"><span class="project-tag">Web Dev</span><span class="project-tag">UI/UX</span><span class="project-tag">Team Project</span></div>
+          <div class="project-arrow">Live Demo →</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/Clarsen17" target="_blank" class="project-card" data-category="fullstack">
+        <div class="project-thumb-wrap">
+          <img src="NexTicket.jpg" alt="NexTicket" class="project-thumb">
+          <div class="project-thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">NexTicket</div>
+          <div class="project-desc">A lightweight IT-style ticketing platform for managing support requests, tracking issues, and assigning follow-up tasks — with a self-service submission portal and admin dashboard.</div>
+          <div class="project-tags"><span class="project-tag">Node.js</span><span class="project-tag">MySQL</span><span class="project-tag">Support Workflow</span></div>
+          <div class="project-arrow">View on GitHub →</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/Clarsen17" target="_blank" class="project-card" data-category="esports fullstack">
+        <div class="project-thumb-wrap">
+          <img src="Esports.png" alt="Esports Club Management App" class="project-thumb">
+          <div class="project-thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Esports Club Management App</div>
+          <div class="project-desc">A full-stack management platform for handling esports club operations — teams, players, events, and match data — focused on organization, usability, and real-time data tracking.</div>
+          <div class="project-tags"><span class="project-tag">Node.js</span><span class="project-tag">MySQL</span><span class="project-tag">Full Stack</span></div>
+          <div class="project-arrow">View on GitHub →</div>
+        </div>
+      </a>
+
+      <a href="https://overwatchteamsrcalculator.tiiny.site/" target="_blank" class="project-card" data-category="web esports">
+        <div class="project-thumb-wrap">
+          <img src="OWCalc.png" alt="Overwatch 2 SR Tool" class="project-thumb">
+          <div class="project-thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Overwatch 2 SR Calculator</div>
+          <div class="project-desc">A JavaScript web app that tracks, calculates, and visualizes an Overwatch 2 team's average skill rating with both overall and per-role calculation modes.</div>
+          <div class="project-tags"><span class="project-tag">JavaScript</span><span class="project-tag">HTML/CSS</span><span class="project-tag">Frontend</span></div>
+          <div class="project-arrow">Live Demo →</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/Clarsen17" target="_blank" class="project-card" data-category="web">
+        <div class="project-thumb-wrap">
+          <img src="Budget.png" alt="Budget Tracker" class="project-thumb">
+          <div class="project-thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Budget Tracker</div>
+          <div class="project-desc">A clean functional web app for tracking income and expenses, with visual balance summaries, income/expense categorization, and a full transaction history.</div>
+          <div class="project-tags"><span class="project-tag">HTML</span><span class="project-tag">JavaScript</span><span class="project-tag">Frontend</span></div>
+          <div class="project-arrow">View on GitHub →</div>
+        </div>
+      </a>
+
+      <a href="" target="_blank" class="project-card" data-category="event esports">
+        <div class="project-thumb-wrap">
+          <img src="toybox.png" alt="Toybox Streamathon" class="project-thumb">
+          <div class="project-thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">The Toybox Streamathon</div>
+          <div class="project-desc">Co-organized and co-hosted a 6-hour charity livestream for the Salvation Army Toy Drive — raising $400+ for children in need. Led event planning, live production, community games, and donation incentives.</div>
+          <div class="project-tags"><span class="project-tag">Event Coord.</span><span class="project-tag">Livestream</span><span class="project-tag">Charity</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ 07 SKILLS ══ -->
+<section id="skills" style="background:var(--dark);">
+  <div class="section reveal">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div class="section-label-group">
+        <span class="section-eyebrow">Core Strengths</span>
+        <span class="section-title">Skills</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <p class="skills-intro">My strongest work sits at the intersection of IT support, software development, and practical problem-solving. I enjoy building clean interfaces, improving workflows, and working with tools that help people get things done faster.</p>
+    <div class="skills-layout">
+      <div class="skill-panel reveal">
+        <span class="skill-panel-icon">🖥️</span>
+        <div class="skill-panel-title">IT Support</div>
+        <div class="skill-panel-copy">Hands-on support experience with user issues, system setup, troubleshooting, and day-to-day technical problem solving.</div>
+        <div class="skill-tags"><span class="skill-tag">Troubleshooting</span><span class="skill-tag">Hardware Support</span><span class="skill-tag">Software Support</span><span class="skill-tag">Account Setup</span><span class="skill-tag">Windows</span></div>
+      </div>
+      <div class="skill-panel reveal">
+        <span class="skill-panel-icon">⚛️</span>
+        <div class="skill-panel-title">Frontend Development</div>
+        <div class="skill-panel-copy">Building responsive interfaces and modern web experiences with a focus on usability, clarity, and clean design.</div>
+        <div class="skill-tags"><span class="skill-tag">React</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span class="skill-tag">Responsive UI</span></div>
+      </div>
+      <div class="skill-panel reveal">
+        <span class="skill-panel-icon">🧩</span>
+        <div class="skill-panel-title">Backend / App Logic</div>
+        <div class="skill-panel-copy">Experience creating functional applications and workflow-driven tools with a focus on usability and structure.</div>
+        <div class="skill-tags"><span class="skill-tag">Node.js</span><span class="skill-tag">Java</span><span class="skill-tag">C++</span><span class="skill-tag">REST Concepts</span><span class="skill-tag">App Design</span></div>
+      </div>
+      <div class="skill-panel reveal">
+        <span class="skill-panel-icon">🗄️</span>
+        <div class="skill-panel-title">Data &amp; Systems</div>
+        <div class="skill-panel-copy">Comfortable with structured data, database-backed apps, and technical environments requiring accuracy and organization.</div>
+        <div class="skill-tags"><span class="skill-tag">MySQL</span><span class="skill-tag">MariaDB</span><span class="skill-tag">Data Tracking</span><span class="skill-tag">System Config</span></div>
+      </div>
+      <div class="skill-panel reveal">
+        <span class="skill-panel-icon">🛠️</span>
+        <div class="skill-panel-title">Tools &amp; Workflow</div>
+        <div class="skill-panel-copy">A practical toolkit for building, editing, debugging, and iterating on technical projects across different environments.</div>
+        <div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">VS Code</span><span class="skill-tag">Linux</span><span class="skill-tag">Microsoft 365</span><span class="skill-tag">Documentation</span></div>
+      </div>
+      <div class="skill-panel reveal">
+        <span class="skill-panel-icon">🎮</span>
+        <div class="skill-panel-title">Leadership &amp; Esports Ops</div>
+        <div class="skill-panel-copy">Team coordination, event support, and competitive operations experience that directly complements my technical background.</div>
+        <div class="skill-tags"><span class="skill-tag">Team Coord.</span><span class="skill-tag">Event Support</span><span class="skill-tag">Broadcasting</span><span class="skill-tag">NECC</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 08 COMMISSION ══ -->
+<section id="commission" style="background:var(--black);">
+  <div class="section reveal">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div class="section-label-group">
+        <span class="section-eyebrow">Work Together</span>
+        <span class="section-title">Commission Me</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="commission-layout">
+      <div class="commission-left">
+        <h3>Let's Build Something Together</h3>
+        <p>I'm open to freelance commissions, project collaborations, and contract work. Fill out the form and I'll get back to you about whether it's something I can take on.</p>
+        <ul class="comm-list">
+          <li>Web application development</li>
+          <li>Esports tooling &amp; platforms</li>
+          <li>Tournament management systems</li>
+          <li>IT support tooling</li>
+          <li>Database-driven applications</li>
+          <li>Custom scripts &amp; utilities</li>
+        </ul>
+      </div>
+      <div class="commission-form">
+        <div class="form-row">
+          <div class="form-group"><label>Your Name</label><input type="text" placeholder="John Smith"></div>
+          <div class="form-group"><label>Your Email</label><input type="email" placeholder="you@example.com"></div>
+        </div>
+        <div class="form-group">
+          <label>Project Type</label>
+          <select><option value="">Select a type...</option><option>Web Application</option><option>Esports Tool / Platform</option><option>IT Support Tool</option><option>Database System</option><option>Script / Utility</option><option>Other</option></select>
+        </div>
+        <div class="form-group">
+          <label>Project Description</label>
+          <textarea placeholder="Describe your project — what it does, your timeline, and any technical requirements..."></textarea>
+        </div>
+        <button class="btn-submit" id="submitBtn" type="button">Send Request</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 09 CONTACT ══ -->
+<section id="contact" style="background:var(--dark); padding-bottom:5rem;">
+  <div class="section reveal">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <div class="section-label-group">
+        <span class="section-eyebrow">Reach Out</span>
+        <span class="section-title">Contact</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="contact-grid">
+      <a href="mailto:collenlarsen@hotmail.com" class="contact-card">
+        <span class="contact-card-icon">✉️</span>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-val">collenlarsen@hotmail.com</div>
+      </a>
+      <a href="https://www.linkedin.com/in/collen-larsen-25b6232aa/" target="_blank" class="contact-card">
+        <span class="contact-card-icon">💼</span>
+        <div class="contact-card-label">LinkedIn</div>
+        <div class="contact-card-val">Collen Larsen</div>
+      </a>
+      <a href="https://github.com/Clarsen17" target="_blank" class="contact-card">
+        <span class="contact-card-icon">🐙</span>
+        <div class="contact-card-label">GitHub</div>
+        <div class="contact-card-val">github.com/Clarsen17</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">C<span>.</span>LARSEN</div>
+  <div class="footer-copy">NIU and IHSEA logos are trademarks of their respective owners. This website is for educational purposes only and is not affiliated with or endorsed by Northern Illinois University or the Illinois High School Esports Association.</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#experience">IT</a>
+    <a href="#projects">Projects</a>
+    <a href="#commission">Hire Me</a>
+  </div>
+</footer>
+
+<script>
+/* ── Custom cursor ── */
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+  cursorRing.style.left=rx+'px'; cursorRing.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+/* ── Hero canvas particle network ── */
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let W,H,particles=[];
+
+function resize(){
+  W=canvas.width=canvas.offsetWidth;
+  H=canvas.height=canvas.offsetHeight;
+}
+resize();
+window.addEventListener('resize',resize);
+
+class Particle{
+  constructor(){this.reset();}
+  reset(){
+    this.x=Math.random()*W;
+    this.y=Math.random()*H;
+    this.vx=(Math.random()-0.5)*0.35;
+    this.vy=(Math.random()-0.5)*0.35;
+    this.r=Math.random()*2+1;
+  }
+  update(){
+    this.x+=this.vx; this.y+=this.vy;
+    if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset();
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(204,0,0,0.6)';
+    ctx.fill();
+  }
+}
+
+for(let i=0;i<80;i++) particles.push(new Particle());
+
+function drawLines(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(204,0,0,${0.18*(1-d/120)})`;
+        ctx.lineWidth=0.8;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animCanvas(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{p.update();p.draw();});
+  drawLines();
+  requestAnimationFrame(animCanvas);
+}
+animCanvas();
+
+/* ── Scroll reveal ── */
+const revEls=document.querySelectorAll('.reveal');
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.07,rootMargin:'0px 0px -30px 0px'});
+revEls.forEach(el=>revObs.observe(el));
+
+/* Stagger child items */
+document.querySelectorAll('.project-card,.skill-panel,.role-card,.contact-card,.about-card,.vol-card,.cert-card,.stat-item').forEach((el,i)=>{
+  el.classList.add('reveal');
+  el.style.transitionDelay=`${(i%4)*0.08}s`;
+  revObs.observe(el);
+});
+
+/* ── Nav scroll shrink ── */
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>60);
+  document.getElementById('backTop').classList.toggle('visible',window.scrollY>400);
+});
+
+/* ── Hamburger ── */
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>{
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+function closeMobile(){
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+}
+
+/* ── Project filter ── */
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    const filter=this.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(card=>{
+      if(filter==='all'||card.dataset.category.includes(filter)){
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  });
+});
+
+/* ── Submit button ── */
+document.getElementById('submitBtn').addEventListener('click',function(){
+  this.textContent='✓ Request Sent!';
+  this.style.background='#00c853';
+  setTimeout(()=>{this.textContent='Send Request';this.style.background='';},3000);
+});
+
+/* ── Animated stat numbers ── */
+function animateCount(el,target,suffix=''){
+  let start=0;
+  const step=()=>{
+    start+=Math.ceil((target-start)/8)||1;
+    el.textContent=start+suffix;
+    if(start<target) requestAnimationFrame(step);
+  };
+  step();
+}
+
+const statObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target.querySelector('.stat-num');
+      const raw=el.textContent.trim();
+      if(raw==='4+') animateCount(el,4,'+');
+      else if(raw==='6+') animateCount(el,6,'+');
+      else if(raw==='2') animateCount(el,2,'');
+      statObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('.stat-item').forEach(s=>statObs.observe(s));
+</script>
+</body>
+</html>
