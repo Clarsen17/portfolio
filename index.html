@@ -407,7 +407,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);padding:2rem 5
   <div class="stats-inner">
     <div class="stat-item reveal"><div class="stat-icon">📅</div><div><div class="stat-num">4+</div><div class="stat-label">Years IT Experience</div></div></div>
     <div class="stat-item reveal"><div class="stat-icon">🏆</div><div><div class="stat-num">6+</div><div class="stat-label">Projects Built</div></div></div>
-    <div class="stat-item reveal"><div class="stat-icon">🎓</div><div><div class="stat-num">2</div><div class="stat-label">Certifications Earned</div></div></div>
+    <div class="stat-item reveal"><div class="stat-icon">🎓</div><div><div class="stat-num">4</div><div class="stat-label">Certifications Earned</div></div></div>
     <div class="stat-item reveal"><div class="stat-icon">❤️</div><div><div class="stat-num">$400+</div><div class="stat-label">Raised for Charity</div></div></div>
   </div>
 </div>
@@ -475,6 +475,8 @@ footer{background:var(--panel);border-top:1px solid var(--border);padding:2rem 5
     <div class="cert-grid">
       <div class="cert-card reveal"><span class="cert-icon">🖥️</span><div class="cert-title">Google IT Support Professional Certificate (V2)</div><div class="cert-org">Coursera · Google</div><div class="cert-date">✦ Issued Jun 2025</div></div>
       <div class="cert-card reveal"><span class="cert-icon">📊</span><div class="cert-title">Sports Marketing Essentials</div><div class="cert-org">Front Office Sports</div><div class="cert-date">✦ Issued Mar 2026</div></div>
+      <div class="cert-card reveal"><span class="cert-icon">🔒</span><div class="cert-title">IBM Cybersecurity Fundamentals</div><div class="cert-org">IBM</div><div class="cert-date">✦ Issued Apr 2026</div></div>
+      <div class="cert-card reveal"><span class="cert-icon">📈</span><div class="cert-title">IBM Getting Started with Data</div><div class="cert-org">IBM</div><div class="cert-date">✦ Issued Apr 2026</div></div>
     </div>
   </div>
 </section>
@@ -678,7 +680,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);padding:2rem 5
             <div class="skill-bar-row"><div class="skill-bar-label"><span class="skill-bar-name">Software Support</span><span class="skill-bar-pct">88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div></div>
             <div class="skill-bar-row"><div class="skill-bar-label"><span class="skill-bar-name">User Account Management</span><span class="skill-bar-pct">80%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div></div>
           </div>
-          <div class="skill-pane-tags"><span class="skill-pane-tag">Windows</span><span class="skill-pane-tag">Account Setup</span><span class="skill-pane-tag">Ticketing</span><span class="skill-pane-tag">Remote Support</span><span class="skill-pane-tag">Tier 1 &amp; 2</span><span class="skill-pane-tag">Google IT Certified</span></div>
+          <div class="skill-pane-tags"><span class="skill-pane-tag">Windows</span><span class="skill-pane-tag">Account Setup</span><span class="skill-pane-tag">Ticketing</span><span class="skill-pane-tag">Remote Support</span><span class="skill-pane-tag">Tier 1 &amp; 2</span><span class="skill-pane-tag">Google IT Certified</span><span class="skill-pane-tag">IBM Cybersecurity</span></div>
         </div>
 
         <div class="skill-pane" id="pane-frontend">
@@ -885,7 +887,7 @@ document.getElementById('submitBtn').addEventListener('click',function(){this.te
 
 /* Count-up stats */
 function cntUp(el,n,sfx=''){let s=0;(function st(){s+=Math.ceil((n-s)/8)||1;el.textContent=(s>n?n:s)+sfx;if(s<n)requestAnimationFrame(st);})();}
-const so=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target.querySelector('.stat-num');const t=el.textContent.trim();if(t==='4+')cntUp(el,4,'+');else if(t==='6+')cntUp(el,6,'+');else if(t==='2')cntUp(el,2,'');so.unobserve(e.target);}});},{threshold:.5});
+const so=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target.querySelector('.stat-num');const t=el.textContent.trim();if(t==='4+')cntUp(el,4,'+');else if(t==='6+')cntUp(el,6,'+');else if(t==='4')cntUp(el,4,'');so.unobserve(e.target);}});},{threshold:.5});
 document.querySelectorAll('.stat-item').forEach(s=>so.observe(s));
 </script>
 </body>
